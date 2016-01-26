@@ -5,7 +5,7 @@ console.log(Images.find().count());
 if (Meteor.isClient) {
 
     Template.images.helpers({
-        images: Images.find({}, {sort: {rating: -1}} )
+        images: Images.find({}, {sort: {createdOn: -1, rating: -1}} )
     });
 
     Template.images.events({
@@ -27,9 +27,31 @@ if (Meteor.isClient) {
                           {$set: {rating:rating}});
             console.log("userrating: "+rating+" for image id: "+image_id);
 
-        } // end js-rate-imate
+        }, // end js-rate-imate
+        'click .js-show-image-form': function(event) {
+            $("#image_add_form").modal("show");
+        } //end 
 
     }); // end template image events
+
+    Template.image_add_form.events({
+       'submit .js-add-image': function(event) {
+           var img_alt, img_src;
+           img_src = event.target.img_src.value;
+           img_alt = event.target.img_alt.value;
+
+           Images.insert({
+               img_alt: img_alt,
+               img_src: img_src,
+               createdOn: new Date()
+           });
+           $("#image_add_form").modal("hide");
+           console.log("src:" + img_src + " alt:" + img_alt);
+           return false;
+       }
+   }); // end template image_add_form events
+
+
 
 }
 
