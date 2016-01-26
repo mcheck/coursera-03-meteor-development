@@ -1,0 +1,59 @@
+<head>
+    <title>image_share</title>
+</head>
+
+<body>
+    <h1>Welcome to Imagina!</h1>
+    {{> image_add_form }}
+    <div class="container">
+        {{> images}}
+    </div>
+</body>
+
+<template name="image_add_form">
+  <div class="modal fade" id="image_add_form">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+        </div>
+      </div>
+      <div class="modal-body">       
+        <form class="js-add-image">
+        <label for="img_src">Image Source</label>
+          <input type="text" name="img_src"/>
+          <br/>
+          <label for="img_alt"></label><input type="text" name="img_alt"/>
+          <button class="btn btn-success">save</button>
+        </form> 
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-warning" data-dismiss="modal">cancel</button>
+      </div>  
+      </div>
+    </div>
+</div>
+</template>
+
+
+<template name="images">
+<button class="btn btn-success js-show-image-form">add image</button>
+    <div class="row">
+        {{#each images}}
+        <div class="col-xs-12 col-md-3" id="{{_id}}">
+            <div class="thumbnail">
+                <img class="js-image" src="{{img_src}}" alt="{{img_alt}}" />
+                <div class="caption">
+                    <h3>My Rating: {{rating}}</h3>
+                    <p>{{img_alt}}</p>
+                    <p>{{>starsRating mutable=true class="js-rate-image" image_id=_id rating=rating}}</p>
+                    <button class="js-del-image btn btn-warning">delete</button>
+                </div>
+                <!-- End of caption div -->
+            </div>
+        </div>
+        <!-- / col -->
+        {{/each}}
+    </div>
+    <!-- / row -->
+</template>
