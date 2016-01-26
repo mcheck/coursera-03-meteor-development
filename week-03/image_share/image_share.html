@@ -64,7 +64,7 @@ Images by {{getFilterUser}} <a href="#" class="js-rm-image-filter">Reset filter<
                 <div class="caption">
                     <h3>Rating #: {{rating}}</h3>
                     <p>{{img_alt}}</p>
-                    <p>createdBy: <a href="#" class="js-set-image-filter">{{getUser(createdBy)}}</a></p>
+                    <p>createdBy: <a href="#" class="js-set-image-filter">{{getUser createdBy }}</a></p>
                     <p>{{>starsRating mutable=true class="js-rate-image" image_id=_id rating=rating}}</p>
                     <button class="js-del-image btn btn-warning">delete</button>
                 </div>
