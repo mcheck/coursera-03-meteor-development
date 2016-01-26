@@ -1,12 +1,34 @@
 Images = new Mongo.Collection("images");
 
-console.log(Images.find().count());
-
 if (Meteor.isClient) {
 
+  Accounts.ui.config ({
+    passwordSignupFields: "USERNAME_AND_EMAIL"
+  });
+
     Template.images.helpers({
-        images: Images.find({}, {sort: {createdOn: -1, rating: -1}} )
+        images: Images.find({}, {sort: {createdOn: -1, rating: -1}} ),
+        getUser: function(user_ID){
+          var user = Meteor.users.findOne({_id:user_ID});
+          if (user) {
+            return user.username;
+          } else {
+            return "anon";
+          }
+        }
     });
+
+    Template.body.helpers({username:function(){
+       console.log(Meteor.user());
+      if (Meteor.user()) {
+        return Meteor.user().username;
+      } else {
+        return "Anonymous Internetsess User"; 
+      }
+    }
+        
+    });
+
 
     Template.images.events({
         'click .js-image': function(event) {
@@ -40,11 +62,14 @@ if (Meteor.isClient) {
            img_src = event.target.img_src.value;
            img_alt = event.target.img_alt.value;
 
-           Images.insert({
-               img_alt: img_alt,
-               img_src: img_src,
-               createdOn: new Date()
-           });
+           if (Meteor.user()) {
+               Images.insert({
+                   img_alt: img_alt,
+                   img_src: img_src,
+                   createdOn: new Date(),
+                   createdBy: Meteor.user()._id
+               });
+           }
            $("#image_add_form").modal("hide");
            console.log("src:" + img_src + " alt:" + img_alt);
            return false;
