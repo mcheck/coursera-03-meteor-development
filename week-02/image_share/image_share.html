@@ -12,7 +12,7 @@
 <template name="images">
 	<div class="row">
   {{#each images}}
-  <div class="col-xs-12 col-md-3">
+  <div class="col-xs-12 col-md-3" id="{{_id}}">
   	<div class="thumbnail">
 
   	 	<img class="js-image" src="{{img_src}}" 
@@ -22,6 +22,8 @@
         	<h3>Thumbnail label</h3>
         	<p>description of the image</p>
      	</div>
+<button class="js-del-image btn btn-warning">delete</button>
+
      </div>
     </div> <!-- / col -->
   {{/each}}
