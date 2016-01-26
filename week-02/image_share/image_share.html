@@ -1,31 +1,32 @@
 <head>
-  <title>image_share</title>
+    <title>image_share</title>
 </head>
 
 <body>
-  <h1>Welcome to coursera!</h1>
-  <div class="container">
-  {{> images}}
-</div>
+    <h1>Welcome to coursera!</h1>
+    <div class="container">
+        {{> images}}
+    </div>
 </body>
 
+
 <template name="images">
-	<div class="row">
-  {{#each images}}
-  <div class="col-xs-12 col-md-3" id="{{_id}}">
-  	<div class="thumbnail">
-
-  	 	<img class="js-image" src="{{img_src}}" 
-  		alt="{{img_alt}}"/> 
-  			
-  		<div class="caption">
-        	<h3>Thumbnail label</h3>
-        	<p>description of the image</p>
-     	</div>
-<button class="js-del-image btn btn-warning">delete</button>
-
-     </div>
-    </div> <!-- / col -->
-  {{/each}}
-</div> <!-- / row -->
-  </template>
+    <div class="row">
+        {{#each images}}
+        <div class="col-xs-12 col-md-3" id="{{_id}}">
+            <div class="thumbnail">
+                <img class="js-image" src="{{img_src}}" alt="{{img_alt}}" />
+                <div class="caption">
+                    <h3>My Rating: {{rating}}</h3>
+                    <p>description of the image</p>
+                    <p>{{>starsRating mutable=true class="js-rate-image" image_id=_id rating=rating}}</p>
+                    <button class="js-del-image btn btn-warning">delete</button>
+                </div>
+                <!-- End of caption div -->
+            </div>
+        </div>
+        <!-- / col -->
+        {{/each}}
+    </div>
+    <!-- / row -->
+</template>
