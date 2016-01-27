@@ -1,6 +1,5 @@
 Images = new Mongo.Collection("images");
 
-if (Meteor.isClient) {
 
   Session.set("imageLimit", 8);
 
@@ -140,13 +139,3 @@ if (Meteor.isClient) {
        }
    }); // end template image_add_form events
 
-
-
-}
-
-if (Meteor.isServer) {
-    console.log("I am the server");
-}
-
-
-console.log("where am I running");
