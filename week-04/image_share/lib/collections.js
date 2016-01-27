@@ -7,7 +7,7 @@ Images.allow({
 
 	// we need to be able to update images for ratings.
 	update:function(userId, doc){
-		console.log("testing security on image update");
+		console.log("image: update");
 		if (Meteor.user()){// they are logged in
 			return true;
 		} else {// user not logged in - do not let them update  (rate) the image. 
@@ -16,7 +16,14 @@ Images.allow({
 	},
 
 	insert:function(userId, doc){
-		console.log("testing security on image insert");
+		console.log("image: insert");
+		if (Meteor.isClient){ 
+      		console.log("insert on client"); 
+    	} 
+    	if (Meteor.isServer){ 
+      		console.log("insert on server"); 
+    	} 
+		console.log("image: insert");
 		if (Meteor.user()){// they are logged in
 			if (userId != doc.createdBy){// the user is messing about
 				return false;
@@ -30,6 +37,7 @@ Images.allow({
 		}
 	}, 
 	remove:function(userId, doc){
+		console.log("images: remove")
 		return true;
 	}
 });

@@ -15,7 +15,6 @@ Images.allow({
 	},
 
 	insert:function(userId, doc){
-		console.log("testing security on image insert");
 		if (Meteor.user()){// they are logged in
 			if (userId != doc.createdBy){// the user is messing about
 				return false;
@@ -29,6 +28,7 @@ Images.allow({
 		}
 	}, 
 	remove:function(userId, doc){
+		console.log("image: remove ");
 		return true;
 	}
 })
