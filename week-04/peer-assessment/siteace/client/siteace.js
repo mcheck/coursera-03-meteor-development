@@ -45,33 +45,47 @@ Accounts.ui.config ({
 
 // UI helpers are available in ALL templates (tried to register in .body but it did not work...)
 UI.registerHelper(
-    'website_added_on',
+    'time_from_now',
     function(context) {
-        return moment(context).fromNow();
+        return moment(context).calendar();
     });
 
-
-
-Template.body.helpers({
-    username: function() {
-        if (Meteor.user()) {
-            return Meteor.user().username;
-        } else {
-            return "Anon";
-        }
+UI.registerHelper(
+	'getUser',
+	function(context) {
+    var filter = {_id: context};
+    var user = Meteor.users.findOne(filter)
+    if (user) {
+        return user.username;
+    } else {
+        return "Unknown";
     }
 });
+
+
+
+// Template.body.helpers({
+//     username: function() {
+//         if (Meteor.user()) {
+//             return Meteor.user().username;
+//         } else {
+//             return "Anon";
+//         }
+//     }
+// });
 
 // helper function that returns all available websites
 Template.website_list.helpers({
 	websites:function(){
-		return Websites.find({}, {sort: {votes: -1}});
+		return Websites.find({}, {sort: {upvotes: -1}});
 	}
 });
 
 // helper function that returns all available websites
 Template.website_detail.helpers({
-	comments:function(website_id){
+	comments:function(){
+		var website_id = this._id;
+		// console.log(website_id);
 		return Comments.find({website_id:website_id}, {sort: {createdOn: -1}});
 		// return Comments.find({}, {sort: {createdOn: -1}});
 	}
@@ -81,7 +95,7 @@ Template.website_detail.helpers({
 /////
 // template events 
 /////
-Template.body.events({
+Template.website_list.events({
 	"click .js-toggle-website-form":function(event){
 		console.log("button click");
 		$("#website_form").toggle('slow');
@@ -90,15 +104,25 @@ Template.body.events({
 });
 
 
-Template.website_item.events({
-	"click .js-upvote":function(event){
+UI.body.events({
+	"click .js-toggle-website-form":function(event){
+		console.log("button click");
+		$("#website_form").toggle('slow');	
+	}
+});
+
+
+
+
+var voting_events = {
+"click .js-upvote":function(event){
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
-		var votes = this.votes;
+		var upvotes = this.upvotes;
 		// console.log("Up voting website with id "+website_id);
 		// put the code in here to add a vote to a website!
-		Websites.update({_id: website_id}, {$set: {votes:votes+1}});
+		Websites.update({_id: website_id}, {$set: {upvotes:upvotes+1}});
 
 		return false;// prevent the button from reloading the page
 	},
@@ -108,15 +132,19 @@ Template.website_item.events({
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
-		var votes = this.votes;
+		var downvotes = this.downvotes;
 		// console.log("Down voting website with id "+website_id);
 		// console.log("It has "+votes);
 		// put the code in here to remove a vote from a website!
-		Websites.update({_id: website_id}, {$set: {votes:votes-1}});
+		Websites.update({_id: website_id}, {$set: {downvotes:downvotes+1}});
 
 		return false;// prevent the button from reloading the page
 	}
-});
+};
+
+// Add voting events to both listing and detail templates
+Template.website_item.events(voting_events);
+Template.website_detail.events(voting_events);
 
 Template.website_form.events({
 
@@ -134,7 +162,8 @@ Template.website_form.events({
 				url: url,
 				title: title,
 				description: description,
-				votes: 1,
+				upvotes: 1,
+				downvotes: 0,
 				createdOn: new Date(),
 				createdBy: Meteor.user()._id
 			});
@@ -155,16 +184,19 @@ Template.website_detail.events({
 	"submit .js-save-comment-form":function(event){
 		// get the id of the website
 		var website_id = this._id;
+		// who is writing this comment?
+		var userid = Meteor.userId();
 		// get the comment from the form
 		var comment = event.target.comment.value;
 
-		console.log(website_id, comment);
+		console.log(website_id, comment, userid);
 	
 	//  Add the comment to the Comments collection
 		Comments.insert({
 			website_id:website_id,
 			comment:comment,
-			createdOn: new Date()
+			createdOn: new Date(),
+			createdBy: userid
 		});
 		return false;// stop the form submit from reloading the page
 	}

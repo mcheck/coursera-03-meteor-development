@@ -57,54 +57,66 @@
 
 <!-- template that displays several website items -->
 <template name="website_list">
+<div class="pull-right">{{> website_form }}</div>
+<h2>Sites</h2>
 	<ol>
-	{{#each websites}}
-	{{>website_item}}
+	{{#each websites }}
+	{{>website_item }}
 	{{/each}}
 	</ol>
 </template>
 
 <!-- template that displays individual website entries in list-->
 <template name="website_item">
-<li class="website-item">
-	<a href="{{url}}">{{title}}</a>
-	(Added {{ website_added_on createdOn }})
-	<a href="/website/{{_id}}">Detail...</a>
-	<p>
-		{{description}}
-	</p>
-
-	<!-- you will be putting your up and down vote buttons in here! -->
-	<a href="#" class="btn btn-default js-upvote">
-		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-	</a>
-	<a href="#" class="btn btn-default js-downvote">
-		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-	</a>
-	{{votes}} votes
-
-</li>
+    <li class="website-item">
+        <a href="{{url}}">{{title}}</a> (Added {{ time_from_now createdOn }})
+        <a href="/website/{{_id}}">Detail...</a>
+        <p>
+            my id: {{_id}}
+            <br/> {{description}}
+        </p>
+        <!-- you will be putting your up and down vote buttons in here! -->
+        <a href="#" class="btn btn-default js-upvote">
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>{{upvotes}}
+        </a>
+        <a href="#" class="btn btn-default js-downvote">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{downvotes}}
+        </a>
+    </li>
 </template>
+
 
 <template name="website_detail">
-<div class="container">
-<p class="return-link"><a href="/">Return to list...</a></p>
-    <ol>
-    	{{> website_item}}
-    </ol>
-	{{#each comments }}
-	{{comment}}
-	{{/each}}
-    <div class="comment-form">
-    <form class="js-save-comment-form">
-            <div class="form-group">
-                <label for="comment">Your comment</label>
-                <input type="text" class="form-control" id="comment" placeholder="Your comment...">
-            </div>
-            <button type="submit" class="btn btn-default">Post</button>
-        </form>    	
-
+    <div class="container">
+        <p class="return-link"><a href="/">Return to list...</a></p>
+        <h2>Site Stats</h2>
+        <a href="{{url}}">{{title}}</a> (Added {{ time_from_now createdOn }})
+        <p>
+            my web id: {{_id}}
+            <br/> {{description}}
+        </p>
+        <h2>Comments</h2> {{#each comments }}
+        <p>Made by {{getUser createdBy}} ({{time_from_now createdOn }}):
+            <br/> {{comment}}
+            <hr/>
+        </p>
+        {{/each}}
+        <!-- you will be putting your up and down vote buttons in here! -->
+        <a href="#" class="btn btn-default js-upvote">
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>{{upvotes}}
+        </a>
+        <a href="#" class="btn btn-default js-downvote">
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{downvotes}}
+        </a>
+        <div class="comment-form">
+            <form class="js-save-comment-form">
+                <div class="form-group">
+                    <label for="comment">Your comment</label>
+                    <input type="text" class="form-control" id="comment" placeholder="Your comment...">
+                </div>
+                <button type="submit" class="btn btn-default">Post</button>
+            </form>
+        </div>
     </div>
-</div>
-
 </template>
+
