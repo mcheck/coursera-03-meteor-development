@@ -10,3 +10,7 @@ body {
 .website-item {
 	margin-bottom: 20px;
 }
+
+#website_form {
+	width:100%;
+}

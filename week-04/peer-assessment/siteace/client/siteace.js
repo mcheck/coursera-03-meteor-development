@@ -98,19 +98,9 @@ Template.website_detail.helpers({
 Template.website_list.events({
 	"click .js-toggle-website-form":function(event){
 		console.log("button click");
-		$("#website_form").toggle('slow');
-		
+		$("#website_form").toggle('slow');		
 	}
 });
-
-
-UI.body.events({
-	"click .js-toggle-website-form":function(event){
-		console.log("button click");
-		$("#website_form").toggle('slow');	
-	}
-});
-
 
 
 
@@ -157,18 +147,32 @@ Template.website_form.events({
 
 		console.log(url, title, description)
 	//  put your website saving code in here!	
-		if (Meteor.user()) {
-			Websites.insert({
-				url: url,
-				title: title,
-				description: description,
-				upvotes: 1,
-				downvotes: 0,
-				createdOn: new Date(),
-				createdBy: Meteor.user()._id
-			});
-		}
+		// if (Meteor.user()) {
+		// 	Websites.insert({
+		// 		url: url,
+		// 		title: title,
+		// 		description: description,
+		// 		upvotes: 1,
+		// 		downvotes: 0,
+		// 		createdOn: new Date(),
+		// 		createdBy: Meteor.user()._id
+		// 	});
+		// }
+
+		HTTP.call('GET', url, {}, function(error, response) {
+		            if (error) {
+		                console.log(error);
+		            } else {
+		                console.log(response);
+					}
+		});
+
+		// close the form
 		$("#website_form").toggle('fast');
+
+		// reset the fields on the form
+		$('.js-save-website-form')[0].reset();
+
 		return false;// stop the form submit from reloading the page
 
 	},
@@ -198,6 +202,10 @@ Template.website_detail.events({
 			createdOn: new Date(),
 			createdBy: userid
 		});
+
+		// reset the fields on the form
+		$('.js-save-comment-form')[0].reset();
+
 		return false;// stop the form submit from reloading the page
 	}
 });
