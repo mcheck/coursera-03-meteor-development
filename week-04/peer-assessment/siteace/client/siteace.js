@@ -145,7 +145,7 @@ Template.website_form.events({
 		var title = event.target.title.value;
 		var description = event.target.description.value;
 
-		console.log(url, title, description)
+		// console.log(url, title, description)
 	//  put your website saving code in here!	
 		// if (Meteor.user()) {
 		// 	Websites.insert({
@@ -158,14 +158,23 @@ Template.website_form.events({
 		// 		createdBy: Meteor.user()._id
 		// 	});
 		// }
+		
 
-		HTTP.call('GET', url, {}, function(error, response) {
-		            if (error) {
-		                console.log(error);
-		            } else {
-		                console.log(response);
-					}
-		});
+		if (url) {
+			console.log("client url is: "+url);
+			Meteor.call('getURL', url, function(err, response) {
+				if (err) {
+					console.log("getURL error: "+err.reason);
+					return;
+				}
+				// Session.set('serverDataResponse', response);
+				// console.log("response is: "+Session.get('serverDataResponse'));
+				console.log("client response is: "+response);
+				console.log(response);
+			});
+		};
+		
+		
 
 		// close the form
 		$("#website_form").toggle('fast');

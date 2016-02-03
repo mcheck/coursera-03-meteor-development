@@ -24,3 +24,4 @@ accounts-password
 mrt:moment
 iron:router
 http
+mrt:cheerio
