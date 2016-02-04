@@ -37,10 +37,10 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a site...
     </a>
     <div id="website_form" class="hidden_div">
-        <form class="js-save-website-form">
+        <form class="js-save-website-form" id="add-site">
             <div class="form-group">
                 <label for="url">Site address</label>
-                <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+                <input type="text" class="form-control" name ="url" id="url" placeholder="http://www.mysite.com">
             </div>
             <div class="form-group">
                 <label for="title">Title</label>
@@ -56,11 +56,23 @@
     {{/if}}
 </template>
 
+
+
+<template name="searchBox">
+    {{> EasySearch.Input index=sitesIndex }}
+
+    <ul>
+        {{#EasySearch.Each index=sitesIndex }}
+            <li>Something: {{title}}</li>
+        {{/EasySearch.Each}}
+    </ul>
+</template>
+
+
 <!-- template that displays several website items -->
 <template name="website_list">
 {{> website_form }}
-
-<h2>Sites</h2>
+<br/><br/>
 <div class="container">
     <div class="row">
         <ul class="thumbnails list-unstyled">
@@ -83,21 +95,25 @@
               <h3>{{ title }}</h3>
               <p>{{ description }}</p>
               <p>(Added {{ time_from_now createdOn }})</p>
-              <p><a href="/website/{{_id}}">Detail...</a></p>
+              <p><a href="/website/{{_id}}" class="btn btn-primary">Detail...</a></p>
             </div>
             <div class="modal-footer" style="text-align: left">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-xs-3">
                     <a href="#" class="btn btn-default js-upvote">
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>{{upvotes}}
                     </a>
                 </div>
-                <div class="col-md-4">
+                <div class="col-xs-3">
                     <a href="#" class="btn btn-default js-downvote">
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{downvotes}}
                     </a>
                 </div>
-                <div class="col-md-4"> </div>
+                <div class="col-xs-3 col-xs-offset-1">
+                    <span class="btn">
+                        <strong>Score:</strong> {{totalvotes}}
+                    </span>
+                </div>
 
               </div>
             </div>
@@ -108,26 +124,43 @@
 
 <template name="website_detail">
     <div class="container">
-        <p class="return-link"><a href="/">Return to list...</a></p>
-        <h2>Site Details</h2>
-        <a href="{{url}}">{{title}}</a> <br/>
-        (Added {{ time_from_now createdOn }}) <br/>
-        <p>
-            {{description}}
-        </p>
-        <h2>Comments</h2> {{#each comments }}
+        <p class="return-link"><a href="/" class="btn btn-primary">Return to list...</a></p>
+        <div class="thumbnail" style="padding: 0">
+            <div class="caption">
+                <h2>{{ title }}</h2>
+                <p>(Added {{ time_from_now createdOn }})</p>
+                <p>{{ description }}</p>
+            </div>
+            <div class="caption">
+                    <h4>Comments</h4> 
+                    {{#each comments }}
         <p>Made by {{getUser createdBy}} ({{time_from_now createdOn }}):
             <br/> {{comment}}
             <hr/>
         </p>
         {{/each}}
-        <!-- you will be putting your up and down vote buttons in here! -->
-        <a href="#" class="btn btn-default js-upvote">
-            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>{{upvotes}}
-        </a>
-        <a href="#" class="btn btn-default js-downvote">
-            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{downvotes}}
-        </a>
+    
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-1">
+                        <a href="#" class="btn btn-default js-upvote">
+                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>{{upvotes}}
+                        </a>
+                    </div>
+                    <div class="col-xs-1">
+                        <a href="#" class="btn btn-default js-downvote">
+                            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>{{downvotes}}
+                        </a>
+                    </div>
+                    <div class="col-xs-1">
+                        <span class="btn">
+                        <strong>Score:</strong> {{totalvotes}}
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h3>Add your comments</h3>
         <div class="comment-form">
             <form class="js-save-comment-form">
@@ -140,4 +173,5 @@
         </div>
     </div>
 </template>
+
 

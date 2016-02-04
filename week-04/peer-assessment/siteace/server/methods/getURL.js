@@ -13,6 +13,12 @@ Meteor.methods({
 
 		console.log("server url title is: "+title);
 
+
+		var description = $('meta[name="description"]').attr("content");
+		var description = $('meta[property="og:description"]').attr("content");
+		if (description) {
+			console.log("server url desc is: "+description);	
+		} 
 		return title;
 		}
 });

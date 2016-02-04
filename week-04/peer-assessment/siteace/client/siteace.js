@@ -32,6 +32,24 @@ UI.registerHelper(
 
 
 
+/////
+// template renderings 
+// we're going to attach the jquery-validation package to our form.
+// 
+/////
+
+Template.website_form.onRendered(function(){
+	$('#add-site').validate({
+		rules: {
+			url: {
+				required: true,
+				url: true 
+			}
+		}
+	});
+});
+
+
 // Template.body.helpers({
 //     username: function() {
 //         if (Meteor.user()) {
@@ -45,9 +63,18 @@ UI.registerHelper(
 // helper function that returns all available websites
 Template.website_list.helpers({
 	websites:function(){
-		return Websites.find({}, {sort: {upvotes: -1}});
+
+		return Websites.find({}, {sort: {totalvotes: -1}});
 	}
 });
+
+Template.website_item.helpers({
+	totalVotes:function(){
+		console.log(this.upvotes.value);
+		return (this.upvotes - this.downvotes);
+	}
+});
+
 
 // helper function that returns all available websites
 Template.website_detail.helpers({
@@ -60,12 +87,17 @@ Template.website_detail.helpers({
 });
 
 
+
+Template.searchBox.helpers({
+  sitesIndex: () => SitesIndex
+});
+
 /////
 // template events 
 /////
 Template.website_list.events({
 	"click .js-toggle-website-form":function(event){
-		console.log("button click");
+		
 		$("#website_form").toggle('slow');		
 	}
 });
@@ -77,10 +109,12 @@ var voting_events = {
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
-		var upvotes = this.upvotes;
+		var upvotes = this.upvotes+1;
+		var downvotes = this.downvotes;
+		var totalvotes = upvotes - downvotes;
 		// console.log("Up voting website with id "+website_id);
 		// put the code in here to add a vote to a website!
-		Websites.update({_id: website_id}, {$set: {upvotes:upvotes+1}});
+		Websites.update({_id: website_id}, {$set: {upvotes:upvotes, totalvotes:totalvotes}});
 
 		return false;// prevent the button from reloading the page
 	},
@@ -90,11 +124,13 @@ var voting_events = {
 		// example of how you can access the id for the website in the database
 		// (this is the data context for the template)
 		var website_id = this._id;
-		var downvotes = this.downvotes;
+		var downvotes = this.downvotes+1;
+		var upvotes = this.upvotes;
+		var totalvotes = upvotes - downvotes;
 		// console.log("Down voting website with id "+website_id);
 		// console.log("It has "+votes);
 		// put the code in here to remove a vote from a website!
-		Websites.update({_id: website_id}, {$set: {downvotes:downvotes+1}});
+		Websites.update({_id: website_id}, {$set: {downvotes:downvotes, totalvotes:totalvotes}});
 
 		return false;// prevent the button from reloading the page
 	}
@@ -104,9 +140,13 @@ var voting_events = {
 Template.website_item.events(voting_events);
 Template.website_detail.events(voting_events);
 
+
+
 Template.website_form.events({
 
 	"submit .js-save-website-form":function(event){
+
+		event.preventDefault();	
 
 		// here is an example of how to get the url out of the form:
 		var url = event.target.url.value;

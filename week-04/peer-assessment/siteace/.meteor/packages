@@ -25,3 +25,5 @@ mrt:moment
 iron:router
 http
 mrt:cheerio
+themeteorchef:jquery-validation
+easy:search

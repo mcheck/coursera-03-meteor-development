@@ -11,32 +11,32 @@
     		url:"http://www.gold.ac.uk/computing/", 
     		description:"This is where this course was developed.", 
     		createdOn:new Date(),
-            upvotes: 1,
-            downvotes: 0
+            upvotes: 10,
+            downvotes: 15
     	});
     	 Websites.insert({
     		title:"University of London", 
     		url:"http://www.londoninternational.ac.uk/courses/undergraduate/goldsmiths/bsc-creative-computing-bsc-diploma-work-entry-route", 
     		description:"University of London International Programme.", 
     		createdOn:new Date(),
-            upvotes: 1,
-            downvotes: 0
+            upvotes: 23,
+            downvotes: 10
     	});
     	 Websites.insert({
     		title:"Coursera", 
     		url:"http://www.coursera.org", 
     		description:"Universal access to the world's best education.", 
     		createdOn:new Date(),
-            upvotes: 1,
-            downvotes: 0
+            upvotes: 19,
+            downvotes: 2
     	});
     	Websites.insert({
     		title:"Google", 
     		url:"http://www.google.com", 
     		description:"Popular search engine.", 
     		createdOn:new Date(),
-            upvotes: 1,
-            downvotes: 0
+            upvotes: 13,
+            downvotes: 6
     	});
     }
   });

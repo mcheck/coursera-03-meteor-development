@@ -8,9 +8,22 @@ body {
 }
 
 .website-item {
-	min-height: 350px;
+	/*min-height: 350px;*/
 }
 
 #website_form {
 	width:100%;
+}
+
+.thumbnail .caption {
+	min-height: 200px;
+	background-color: #eee;
+}
+
+input.error{
+    background-color:rgb(255, 231, 231);
+}
+
+.modal-footer {
+	background-color: #ddd;
 }
