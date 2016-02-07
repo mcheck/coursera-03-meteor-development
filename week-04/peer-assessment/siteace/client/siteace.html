@@ -40,19 +40,21 @@
         <form class="js-save-website-form" id="add-site">
             <div class="form-group">
                 <label for="url">Site address</label>
-                <input type="text" class="form-control" name ="url" id="url" placeholder="http://www.mysite.com">
+                <input type="text" class="form-control" name ="url" id="url" placeholder="http://www.anewsite.com" value="http://">
             </div>
-            <div class="form-group">
+<!--             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" placeholder="Mysite">
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+                <input type="text" class="form-control" id="description" placeholder="I like this site because...">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+ -->            <button type="submit" class="btn btn-default">Submit</button>
         </form>
     </div>
+    {{else}}
+    <p>Please login to add new sites.</p>
     {{/if}}
 </template>
 

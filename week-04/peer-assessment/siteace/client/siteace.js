@@ -150,39 +150,42 @@ Template.website_form.events({
 
 		// here is an example of how to get the url out of the form:
 		var url = event.target.url.value;
-		var title = event.target.title.value;
-		var description = event.target.description.value;
+		// var title = event.target.title.value;
+		// var description = event.target.description.value;
 
 		// console.log(url, title, description)
-	//  put your website saving code in here!	
-		// if (Meteor.user()) {
-		// 	Websites.insert({
-		// 		url: url,
-		// 		title: title,
-		// 		description: description,
-		// 		upvotes: 1,
-		// 		downvotes: 0,
-		// 		createdOn: new Date(),
-		// 		createdBy: Meteor.user()._id
-		// 	});
-		// }
-		
-
+		// 
 		if (url) {
-			console.log("client url is: "+url);
+			// console.log("client url is: "+url);
 			Meteor.call('getURL', url, function(err, response) {
 				if (err) {
 					console.log("getURL error: "+err.reason);
 					return;
-				}
+				};
 				// Session.set('serverDataResponse', response);
 				// console.log("response is: "+Session.get('serverDataResponse'));
 				console.log("client response is: "+response);
-				console.log(response);
+				// console.log(response);
+					//  put your website saving code in here!	
+				
+				var title = response;
+				var description = response;
+
+				if (Meteor.user()) {
+					Websites.insert({
+						url: url,
+						title: title,
+						description: description,
+						upvotes: 1,
+						downvotes: 0,
+						totalvotes: 1,
+						createdOn: new Date(),
+						createdBy: Meteor.user()._id
+					});
+				};
+				// 
 			});
 		};
-		
-		
 
 		// close the form
 		$("#website_form").toggle('fast');

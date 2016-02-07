@@ -12,7 +12,8 @@
     		description:"This is where this course was developed.", 
     		createdOn:new Date(),
             upvotes: 10,
-            downvotes: 15
+            downvotes: 15,
+            totalvotes: -5
     	});
     	 Websites.insert({
     		title:"University of London", 
@@ -20,7 +21,8 @@
     		description:"University of London International Programme.", 
     		createdOn:new Date(),
             upvotes: 23,
-            downvotes: 10
+            downvotes: 10,
+            totalvotes: 13
     	});
     	 Websites.insert({
     		title:"Coursera", 
@@ -28,7 +30,8 @@
     		description:"Universal access to the world's best education.", 
     		createdOn:new Date(),
             upvotes: 19,
-            downvotes: 2
+            downvotes: 2,
+            totalvotes: 17
     	});
     	Websites.insert({
     		title:"Google", 
@@ -36,7 +39,8 @@
     		description:"Popular search engine.", 
     		createdOn:new Date(),
             upvotes: 13,
-            downvotes: 6
+            downvotes: 6,
+            totalvotes: 7
     	});
     }
   });
